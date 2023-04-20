@@ -1,0 +1,6 @@
+
+{
+	"values" : {"Python":95, "Java":70, "C":60, "C# C++":30},
+	"lang_values" : {"Persian":100, "English":80, "Arabic":30},
+	"front_values" : {"Front:":0, "HTML CSS JS":95, "React JS":80, "Back:":0, "Python Flask":80},
+}
