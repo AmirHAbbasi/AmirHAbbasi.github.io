@@ -1,0 +1,1 @@
+const alphabet = document.getElementsByTagName("hid")[0].innerHTML;
