@@ -72,6 +72,26 @@
 
 	
 
+	document.addEventListener('DOMContentLoaded', () => {
+const url = "https://raw.githubusercontent.com/AmirHAbbasi/AmirHAbbasi.github.io/main/data1.json";
+
+fetch(url)
+.then(response => {
+if (!response.ok) {
+throw new Error('Network response was not ok ' + response.statusText);
+}
+return response.json();
+})
+.then(data => {
+console.log(`<pre>${JSON.stringify(data, null, 2)}</pre>`);
+})
+.catch(error => {
+console.error('There has been a problem with your fetch operation:', error);
+});
+});
+
+	
+
   const weekdays = [
 	'شنبه',
 	'یکشنبه',
