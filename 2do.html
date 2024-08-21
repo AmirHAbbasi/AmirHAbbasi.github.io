@@ -49,11 +49,50 @@
 }
 
 
+
+	.loginbtn{
+	background-color: red;
+    position: absolute;
+    left: 25vw;
+    top: 25vh;
+    width: 50vw;
+    height: 50vh;
+	border-radius: 5%;
+}
+
+.loginbtn>form{
+	position: absolute;
+    top: 25%;
+    left: 25%;
+	width:50%;
+	height:50%;
+    color: white;
+}
+
+
 </style>
 
 
 <body style="background-color:black;float: right;margin:1%;font-family: 'Cairo';font-family: cursive, system-ui;">
 
+
+
+
+	<div class="loginbtn">
+	<form method="post">
+  		<label>
+    		U:
+    		<input type="text" placeholder="Enter Username" name="uname" required style="width: 80%;" />
+  		</label>
+		<br></br>
+		<label>
+    		P:
+    		<input type="password" placeholder="Enter Password" name="psw" required style="width: 80%;" />
+  		</label><br></br>
+  		<button type="submit" style="width: 100%;">Go</button>
+	</form>
+</div>
+	
 
 <div class="row header">
 	<div class="entry" style="width:calc(10% - 2px)">
@@ -83,7 +122,8 @@ throw new Error('Network response was not ok ' + response.statusText);
 return response.json();
 })
 .then(data => {
-console.log(`<pre>${JSON.stringify(data, null, 2)}</pre>`);
+const fixedWorks = data.fixedWorks;
+const events = data.events;
 })
 .catch(error => {
 console.error('There has been a problem with your fetch operation:', error);
