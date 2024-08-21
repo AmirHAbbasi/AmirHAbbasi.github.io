@@ -7,6 +7,10 @@
 <link rel="icon" type="image/x-icon" href="https://fonts.gstatic.com/s/i/short-term/release/materialsymbolsoutlined/calendar_month/default/24px.svg">
 
 
+<link rel="preconnect" href="https://api.npoint.io" crossorigin>
+	
+
+
 </head>
 
 <style>
@@ -126,7 +130,7 @@ function start(){
 	
 
 
-const url = p;
+const url = `https://api.npoint.io/${p}`;
 
 fetch(url)
 .then(response => {
