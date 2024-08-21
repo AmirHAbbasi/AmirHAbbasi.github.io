@@ -318,41 +318,14 @@ function getWeekStartDate(d) {
 
 // redirect for showing today in start page
 if(document.URL.indexOf('#')<0){
+	console.log('ss');
 	if(getDayNoInWeek(new Date())>3){window.location.replace(`${document.URL}#s${getDayNoInWeek(new Date())-3}`);}	
 }
 
 
 
-/*
-fetch("fixedWorks.txt")
-  .then((res) => res.text())
-  .then((text) => {
-    // do something with "text"
-   })
-  .catch((e) => console.error(e));
-
-*/
 
 
-/*
-function readTextFile(file) {
-  var rawFile = new XMLHttpRequest();
-  rawFile.open("GET", file, false);
-  rawFile.setRequestHeader('Origin', 'https://foo.example')
-  rawFile.onreadystatechange = function () {
-    if(rawFile.readyState === 4)  {
-      if(rawFile.status === 200 || rawFile.status == 0) {
-        var allText = rawFile.responseText;
-        console.log(allText);
-       }
-    }
-  }
-  rawFile.send(null);
-}
-
-readTextFile("file:///F:/Amir/Summer1401/_UI/fixedWorks.txt");
-
-*/
 
 
 </script>
