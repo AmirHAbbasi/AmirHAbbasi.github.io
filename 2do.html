@@ -141,6 +141,7 @@ return response.json();
 })
 .then(data => {
 if(data.checksum==u){
+	document.getElementsByClassName('loginbtn')[0].hidden=true;
 	const events = data.events;
 	const fixedWorks = data.fixedWorks;
 	construct();
