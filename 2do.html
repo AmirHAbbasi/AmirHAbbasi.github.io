@@ -121,6 +121,9 @@
 <script>
 
 const E = document.getElementById('errorlogin');
+
+var events;
+var fixedWorks;
 	
 var u,p;
 function start(){
@@ -142,8 +145,8 @@ return response.json();
 .then(data => {
 if(data.checksum==u){
 	document.getElementsByClassName('loginbtn')[0].hidden=true;
-	const events = data.events;
-	const fixedWorks = data.fixedWorks;
+	events = data.events;
+	fixedWorks = data.fixedWorks;
 	construct();
 }
 else{
