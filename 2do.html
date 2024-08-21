@@ -92,6 +92,11 @@
     		<input type="password" placeholder="Enter Password" name="psw" required style="width: 80%;" />
   		</label><br></br>
   		<button type="submit" style="width: 100%;">Go</button>
+		<p style="
+		    bottom: 0;
+		    position: absolute;
+		    color: chartreuse;
+		" id="errorlogin"></p>
 	</form>
 </div>
 	
@@ -111,6 +116,8 @@
 
 <script>
 
+const E = document.getElementById('errorlogin');
+	
 var u,p;
 function start(){
 	u = document.getElementsByName("uname")[0].value;
@@ -124,7 +131,7 @@ const url = p;
 fetch(url)
 .then(response => {
 if (!response.ok) {
-throw new Error('Network response was not ok ' + response.statusText);
+E.innerHTML = `Network response was not ok ${response.statusText}`;
 }
 return response.json();
 })
@@ -134,9 +141,12 @@ if(data.checksum==u){
 	const fixedWorks = data.fixedWorks;
 	construct();
 }
+else{
+	E.innerHTML = "Too Manny Attemptus!";
+}
 })
 .catch(error => {
-console.error('There has been a problem with your fetch operation:', error);
+E.innerHTML = `There has been a problem with your fetch operation: ${error}`;
 });
 });
 	
