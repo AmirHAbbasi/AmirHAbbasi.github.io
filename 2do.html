@@ -70,6 +70,8 @@
 
 <script>
 
+	
+
   const weekdays = [
 	'شنبه',
 	'یکشنبه',
@@ -147,7 +149,7 @@ var currentDate = thisSat;
 const ScheduleDays = 21;
 
 for (let index = 0; index < ScheduleDays; index++) {
-	console.log(100-(getDayNoInWeek(new Date())-index)*10);
+	
 	document.body.innerHTML += `<div class="row" id=s${index} onClick="Focus(this)" style="cursor:pointer;top:calc(${index+1} * var(--entry-h));					
 					${(index%7)>4 ? "background-color:red;color:white" : ""};
 					${(index==getDayNoInWeek(new Date())) ? "background-color:white;color:black" : ""};
@@ -190,7 +192,7 @@ function period2range(period){
 
 
 function PlaceWork(day, color, period, title, subtitle, includeSubtitle=false){
-	//console.log(day+1);
+
 	var dayRow = document.getElementsByClassName('row')[day+1];
 
 	var start = clocks2range(period.split('-')[0]);
@@ -317,8 +319,7 @@ function getWeekStartDate(d) {
 
 
 // redirect for showing today in start page
-if(document.URL.indexOf('#')<0){
-	console.log('ss');
+if(document.URL.indexOf('#s')<0){
 	if(getDayNoInWeek(new Date())>3){window.location.replace(`${document.URL}#s${getDayNoInWeek(new Date())-3}`);}	
 }
 
