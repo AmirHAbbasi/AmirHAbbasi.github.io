@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>تقویم</title>
+
+
+<link rel="icon" type="image/x-icon" href="https://fonts.gstatic.com/s/i/short-term/release/materialsymbolsoutlined/calendar_month/default/24px.svg">
+
+
+</head>
+
+<style>
+
+
+
+
+:root {
+  --entry-h: calc(12.5% - 2px);
+}
+
+
+.row{	    
+    width: calc(100% - 2px);
+    height: var(--entry-h);
+    position: absolute;
+    left: 0%;
+    top: 0%;
+	overflow: hidden;
+	border: 1px solid black;
+	direction:rtl;
+	background-color: rgb(226, 242, 255);
+	display:inline-flex;
+	z-index:1;
+}
+
+.header{
+	background-color: rgb(238, 238, 238);
+	font-size: x-large;
+	display: inline-flex;
+	position: fixed;
+	z-index:5;
+}
+
+.entry{
+	text-align:center;
+	height:100%;	
+	border-left : 1px solid black;
+	border-right : 1px solid black;
+}
+
+
+</style>
+
+
+<body style="background-color:black;float: right;margin:1%;font-family: 'Cairo';font-family: cursive, system-ui;">
+
+
+<div class="row header">
+	<div class="entry" style="width:calc(10% - 2px)">
+		روز/ساعت
+	</div>
+</div>
+
+
+
+
+
+
+</body>
+
+<script>
+
+  const weekdays = [
+	'شنبه',
+	'یکشنبه',
+	'دوشنبه',
+	'سه شنبه',
+	'چهارشنبه',
+	'پنجشنبه',
+	'جمعه',
+];
+
+  const header = document.getElementsByClassName('header')[0];
+
+
+const h = 5;
+
+const H = 24;
+
+var stepsSize = 1;
+
+for (let index = h; index < H; index+=stepsSize) {
+	header.innerHTML += `<div class="entry" style="width:calc(${90/(H-h)}% - 1px);font-size:large"><text>${index}:00</text><br><text>${index+1}:00</text></div>`;
+	//header.innerHTML += `<div class="entry" style="width:${90/(H-h)}%;font-size:large"><text>${index}:00</text><br><text>${index+1}:00</text></div>`;
+}
+
+
+
+var focused = false;
+var pastPos = "";
+var pastTop = "";
+var pastZ = "";
+var pastH = "";
+var pastOpacity = "";
+
+
+function Focus(element){
+	if(!focused){
+		focused = true;
+
+		pastTop = element.style['top'];
+		pastPos = element.style['position'];
+		pastZ = element.style['z-index'];
+		pastH = element.style['height'];
+		pastOpacity = element.style['opacity'];
+
+
+		element.style['top'] = "calc(1* var(--entry-h))";
+		element.style['position'] = "fixed";
+		element.style['z-index'] = "10";
+		element.style['height'] = "100%";
+		element.style['opacity'] = "100%" ;
+	}
+
+	else{
+		element.style['top'] = pastTop;
+		element.style['position'] = pastPos;
+		element.style['z-index'] = pastZ;
+		element.style['height'] = pastH;
+		element.style['opacity'] = pastOpacity;
+		focused = false;
+	}
+}
+
+
+
+function getDayNoInWeek(d){
+	// sat = 0, fri = 6
+	return (d.getDay()+1)%7;
+}
+
+
+const thisSat = getWeekStartDate(new Date());
+
+var currentDate = thisSat;
+
+const ScheduleDays = 21;
+
+for (let index = 0; index < ScheduleDays; index++) {
+	console.log(100-(getDayNoInWeek(new Date())-index)*10);
+	document.body.innerHTML += `<div class="row" id=s${index} onClick="Focus(this)" style="cursor:pointer;top:calc(${index+1} * var(--entry-h));					
+					${(index%7)>4 ? "background-color:red;color:white" : ""};
+					${(index==getDayNoInWeek(new Date())) ? "background-color:white;color:black" : ""};
+					/*filter:blur(${2*(index<getDayNoInWeek(new Date()))}px)*/;
+					opacity:${100-(getDayNoInWeek(new Date())-index)*15}%;"
+					date=${currentDate.toLocaleDateString('fa-IR').slice(currentDate.toLocaleDateString('fa-IR')
+					.indexOf('/')+1).replace(/[۰-۹]/g, d => '۰۱۲۳۴۵۶۷۸۹'.indexOf(d))}>
+					<div class="entry" style="width:calc(10% - 2px);">
+						<text>${weekdays[index%weekdays.length]}</text>
+						<br>
+						<text>${currentDate.toLocaleDateString('fa-IR')}</text>
+						<br>
+						<text class="event"></text>
+					</div>
+				    </div>`;
+	currentDate.setDate(currentDate.getDate() + 1);	
+}
+
+
+
+function clocks2range(clk){
+	// clk = '11:30'
+
+	var i = clk.split(':')[0];
+	var f = clk.split(':')[1];
+
+	return (i-h)+(f/60);
+}
+
+
+function period2range(period){
+	var start = period.split('-')[0];
+	var end = period.split('-')[1];
+
+	return clocks2range(end)-clocks2range(start);
+}
+
+
+
+
+
+function PlaceWork(day, color, period, title, subtitle, includeSubtitle=false){
+	//console.log(day+1);
+	var dayRow = document.getElementsByClassName('row')[day+1];
+
+	var start = clocks2range(period.split('-')[0]);
+
+	var width = period2range(period);
+	
+
+	dayRow.innerHTML += `
+		<div class="entry" style="background-color:${color};width:calc(${width} * ${90/(H-h)}% - 1px);
+					  right:calc((${start} * ${90/(H-h)}%) + 10% - 1px);position:absolute">
+			<text style="font-size: x-large;text-wrap: nowrap;text-overflow: ellipsis;width:100%;">${title}</text>
+			<br>
+			<text style="text-align:start;font-size: small;text-wrap:nowrap;${includeSubtitle?'':'display: block;overflow-wrap: anywhere;'};border-top: 1px solid black;">${subtitle}</text>
+		</div>
+	`;
+		
+
+
+	var tss = dayRow.getElementsByTagName('text');
+	tss=Object.values(tss);
+	tss.reverse();
+	ts = tss[1];
+	
+	
+	if(ts.offsetWidth>ts.parentElement.offsetWidth){
+		ts.style['transform']=`scale(${ts.parentElement.offsetWidth/(ts.offsetWidth+2)}, 1)`;
+		ts.style['display']="inline-flex";
+		ts.style['transform-origin']="right";
+	}
+
+	ts = tss[0];
+	if(includeSubtitle){		
+		if(ts.offsetWidth>ts.parentElement.offsetWidth){
+			ts.style['transform']=`scale(${ts.parentElement.offsetWidth/(ts.offsetWidth+2)}, 1)`;
+			ts.style['display']="inline-flex";
+			ts.style['transform-origin']="right";			
+		}
+	}
+	else{ts.style['text-wrap']="balance";}
+
+
+}
+
+
+
+
+
+// Place Fixed Works
+// daynumber (sat=0) : [[time period, work color, work title, work description], ...]
+
+for (let day of Object.keys(fixedWorks)) {
+
+	for (let index = parseInt(day); index < ScheduleDays; index=index+7) {
+		var write=true;
+		if(events[document.getElementsByClassName('row')[1+index].attributes['date'].value]){
+			write=!(events[document.getElementsByClassName('row')[1+index].attributes['date'].value][0]);
+			document.getElementsByClassName('row')[1+index].getElementsByClassName('event')[0].innerHTML = `<text style="color:gold">${events[document.getElementsByClassName('row')[1+index].attributes['date'].value][1]}</text>`;			
+		}
+		if(write){
+			for (let work of fixedWorks[day]) {
+				PlaceWork(index, work[1], work[0], work[2], work[3], includeSubtitle=true);
+			
+			}	
+		}
+		else{
+			if(document.getElementsByClassName('row')[1+index].style['background-color']!="white"){
+			document.getElementsByClassName('row')[1+index].style['background-color']="red";
+			document.getElementsByClassName('row')[1+index].style['color']="white";}
+			else{
+			document.getElementsByClassName('row')[1+index].style['background-color']="pink";
+			document.getElementsByClassName('row')[1+index].style['color']="black";
+			}
+		}			
+	
+}
+}
+
+
+
+// Place Works
+// works = { date : [[time period ,work color, work title, work description], ...], ...}
+for (let index = 1; index < document.getElementsByClassName('row').length; index++) {
+
+	if(works[document.getElementsByClassName('row')[index].attributes['date'].value]){
+		for (let work of works[document.getElementsByClassName('row')[index].attributes['date'].value]) {
+				PlaceWork(index-1, work[1], work[0], work[2], work[3]);
+		
+}
+	}
+}
+
+
+
+
+
+
+
+
+
+function getWeekStartDate(d){
+	// Get dates of week (start from saturday) which d is in it.
+	d.getDay();
+}
+
+
+
+
+
+
+function getWeekStartDate(d) {
+  // Get dates of week (start from Saturday) which d is in it.
+  const dayOfWeek = d.getDay();
+  const daysToSaturday = (dayOfWeek + 1) % 7; // 0 for Saturday, 1 for Sunday, ..., 6 for Friday
+  const weekStartDate = new Date(d);
+  weekStartDate.setDate(d.getDate() - daysToSaturday);
+  return weekStartDate;  
+}
+
+
+
+
+
+
+
+
+// redirect for showing today in start page
+if(document.URL.indexOf('#')<0){
+	if(getDayNoInWeek(new Date())>3){window.location.replace(`${document.URL}#s${getDayNoInWeek(new Date())-3}`);}	
+}
+
+
+
+/*
+fetch("fixedWorks.txt")
+  .then((res) => res.text())
+  .then((text) => {
+    // do something with "text"
+   })
+  .catch((e) => console.error(e));
+
+*/
+
+
+/*
+function readTextFile(file) {
+  var rawFile = new XMLHttpRequest();
+  rawFile.open("GET", file, false);
+  rawFile.setRequestHeader('Origin', 'https://foo.example')
+  rawFile.onreadystatechange = function () {
+    if(rawFile.readyState === 4)  {
+      if(rawFile.status === 200 || rawFile.status == 0) {
+        var allText = rawFile.responseText;
+        console.log(allText);
+       }
+    }
+  }
+  rawFile.send(null);
+}
+
+readTextFile("file:///F:/Amir/Summer1401/_UI/fixedWorks.txt");
+
+*/
+
+
+</script>
+
+</html>
