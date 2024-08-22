@@ -422,14 +422,16 @@ function getWeekStartDate(d) {
 
 const modal= document.getElementById('modal');
 function showmodule(title, subtitle){	
-	modal.getElementsByTagName('h1')[0].innerHTML = title;	
-	modal.getElementsByTagName('p')[0].innerHTML = subtitle;
-	modal.hidden = false;
-	document.body.style.overflow="hidden";	
+	document.getElementById('modal').getElementsByTagName('h1')[0].innerHTML = title;	
+	document.getElementById('modal').getElementsByTagName('p')[0].innerHTML = subtitle;
+	document.getElementById('modal').hidden = false;
+	document.body.style.overflow="hidden";
+	
 }
 function closemodal(){
-	modal.hidden = true;
+	document.getElementById('modal').hidden = true;
 	document.body.style.overflow="auto";
+	
 }
 
 function getDayNoInWeek(d){
