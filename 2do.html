@@ -236,8 +236,7 @@ function Focus(element){
 
 
 const modal= document.getElementById('modal');
-function showmodule(title, subtitle){
-	
+function showmodule(title, subtitle){	
 	modal.getElementsByTagName('h1')[0].innerHTML = title;	
 	modal.getElementsByTagName('p')[0].innerHTML = subtitle;
 	modal.hidden = false;
@@ -246,7 +245,6 @@ function showmodule(title, subtitle){
 function closemodal(){
 	modal.hidden = true;
 	document.body.style.overflow="auto";
-	i = (i+1)%2;
 }
 
 function getDayNoInWeek(d){
