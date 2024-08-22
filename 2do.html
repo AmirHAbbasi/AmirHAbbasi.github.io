@@ -235,22 +235,7 @@ function Focus(element){
 
 
 
-const modal= document.getElementById('modal');
-function showmodule(title, subtitle){	
-	modal.getElementsByTagName('h1')[0].innerHTML = title;	
-	modal.getElementsByTagName('p')[0].innerHTML = subtitle;
-	modal.hidden = false;
-	document.body.style.overflow="hidden";	
-}
-function closemodal(){
-	modal.hidden = true;
-	document.body.style.overflow="auto";
-}
 
-function getDayNoInWeek(d){
-	// sat = 0, fri = 6
-	return (d.getDay()+1)%7;
-}
 
 
 const thisSat = getWeekStartDate(new Date());
@@ -435,6 +420,22 @@ function getWeekStartDate(d) {
 
 
 
+const modal= document.getElementById('modal');
+function showmodule(title, subtitle){	
+	modal.getElementsByTagName('h1')[0].innerHTML = title;	
+	modal.getElementsByTagName('p')[0].innerHTML = subtitle;
+	modal.hidden = false;
+	document.body.style.overflow="hidden";	
+}
+function closemodal(){
+	modal.hidden = true;
+	document.body.style.overflow="auto";
+}
+
+function getDayNoInWeek(d){
+	// sat = 0, fri = 6
+	return (d.getDay()+1)%7;
+}
 
 
 
