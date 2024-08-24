@@ -7,7 +7,7 @@
 <link rel="icon" type="image/x-icon" href="https://fonts.gstatic.com/s/i/short-term/release/materialsymbolsoutlined/calendar_month/default/24px.svg">
 
 
-<link rel="preconnect" href="https://api.npoint.io" crossorigin>
+<link rel="preconnect" href="https://api.jsonbin.io" crossorigin>
 	
 
 
@@ -132,24 +132,53 @@ var events;
 var fixedWorks;
 var works;
 	
-var u,p;
-function start(){
-	u = document.getElementsByName("uname")[0].value;
-	p = document.getElementsByName("psw")[0].value;
+var u,p,mk,ak;
 
+function SetError(err){
+	errorlogin.innerHTML = err;
+}
+	
+	
+function start(){
+	u = document.getElementsByName("psw")[0].value;
+	p = document.getElementsByName("uname")[0].value;
+	mk = u.split(".")[1];
+	ak = u.split("@")[1].split(".")[0];
+	u = u.split('@')[0];
+	// u@ak.mk
 	
 
 
-const url = `https://api.npoint.io/${p}`;
+const url = `https://api.jsonbin.io/v3/b/${u}/latest?meta=false`;
 
-fetch(url)
+fetch(url{
+	method: 'GET',
+	signal: AbortSignal.timeout(5000),
+	headers: {"X-Master-Key" : mk,	"X-Access-Key" : ak}
+})
 .then(response => {
-if (!response.ok) {
-E.innerHTML = `Network response was not ok ${response.statusText}`;
+if (response.status!=200) {
+	switch (response.status){
+		case 401 : 
+				SetError('Wrong username pass or forbidden request');
+				breadk;
+		case 403 : 
+				SetError('Forbidden request');
+				breadk;
+		case 404 : 
+				SetError('404 not found');
+				breadk;
+		case 400 : 
+				SetError('bad request');
+				breadk;
+	}
+
+	
 }
 return response.json();
 })
 .then(data => {
+errorlogin.innerHTML = "";
 if(data.checksum==u){
 	document.getElementsByClassName('loginbtn')[0].hidden=true;
 	events = data.events;
@@ -158,11 +187,11 @@ if(data.checksum==u){
 	construct();
 }
 else{
-	E.innerHTML = "Too Manny Attemptus!";
+	SetError("Wrong username/password");
 }
 })
 .catch(error => {
-E.innerHTML = `There has been a problem with your fetch operation: ${error}`;
+SetError('Server not connected. if you sure, try again!');
 });
 
 	
