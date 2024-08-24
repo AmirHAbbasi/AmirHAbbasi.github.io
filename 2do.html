@@ -179,8 +179,6 @@ return response.json();
 })
 .then(data => {
 errorlogin.innerHTML = "";
-console.log(p);
-console.log(data.checksum);
 if(p.localeCompare(data.checksum)==0){
 	document.getElementsByClassName('loginbtn')[0].hidden=true;
 	events = data.events;
