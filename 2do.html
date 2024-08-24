@@ -142,9 +142,9 @@ function SetError(err){
 function start(){
 	u = document.getElementsByName("psw")[0].value;
 	p = document.getElementsByName("uname")[0].value;
-	mk = u.split(".")[1];
-	ak = u.split("@")[1].split(".")[0];
-	u = u.split('@')[0];
+	mk = u.split("=")[1];
+	ak = u.split("-")[1].split("=")[0];
+	u = u.split('-')[0];
 	// u@ak.mk
 	
 
