@@ -179,7 +179,7 @@ return response.json();
 })
 .then(data => {
 errorlogin.innerHTML = "";
-if(data.checksum==u){
+if(u.localeCompare(data.checksum)==0){
 	document.getElementsByClassName('loginbtn')[0].hidden=true;
 	events = data.events;
 	fixedWorks = data.fixedWorks;
