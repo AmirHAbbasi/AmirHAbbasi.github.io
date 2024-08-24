@@ -151,7 +151,7 @@ function start(){
 
 const url = `https://api.jsonbin.io/v3/b/${u}/latest?meta=false`;
 
-fetch(url{
+fetch(url, {
 	method: 'GET',
 	signal: AbortSignal.timeout(5000),
 	headers: {"X-Master-Key" : mk,	"X-Access-Key" : ak}
