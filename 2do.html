@@ -366,6 +366,8 @@ function period2range(period){
 
 function PlaceWork(day, color, period, title, subtitle, includeSubtitle=false){
 
+	subtitle = subtitle.replaceAll('+','<br></br>-');
+
 	var dayRow = document.getElementsByClassName('row')[day+1];
 
 	var start = clocks2range(period.split('-')[0]);
