@@ -134,27 +134,36 @@ var works;
 	
 var u,p,mk,ak;
 
+var tkn,rep,usr,fl;
+
 function SetError(err){
 	errorlogin.innerHTML = err;
 }
 	
 	
-function start(){
+function start(){	
 	u = document.getElementsByName("psw")[0].value;
 	p = document.getElementsByName("uname")[0].value;
-	mk = u.split("=")[1];
-	ak = u.split("-")[1].split("=")[0];
-	u = u.split('-')[0];
-	// u@ak.mk
+	
+	tkn = u.split("@")[0];
+
+	usr = u.split("@")[1];
+
+	rep = u.split("@")[2];
+
+	fl = u.split("@")[3];
 	
 
 
-const url = `https://api.jsonbin.io/v3/b/${u}/latest?meta=false`;
+const url = `https://api.github.com/repos/${usr}/${rep}/contents/${fl}`;
 
 fetch(url, {
 	method: 'GET',
 	signal: AbortSignal.timeout(5000),
-	headers: {"X-Master-Key" : mk,	"X-Access-Key" : ak}
+	headers: {
+        'Authorization': `token ${tkn}`,
+        'Content-Type': 'application/json'
+    }
 })
 .then(response => {
 if (response.status!=200) {
@@ -179,14 +188,18 @@ return response.json();
 })
 .then(data => {
 errorlogin.innerHTML = "";
+	
 	document.getElementsByClassName('loginbtn')[0].hidden=true;
-	events = data.events;
-	fixedWorks = data.fixedWorks;
-	works = data.works;
+
+	var resp = JSON.parse(decodeURIComponent(escape(atob(data['content']))));
+	
+	events = resp.events;
+	fixedWorks = resp.fixedWorks;
+	works = resp.works;
 	construct();
 })
 .catch(error => {
-SetError('Server not connected. if you sure, try again!');
+SetError(`Server connected. but ${error}`);
 });
 
 	
