@@ -250,7 +250,18 @@
 	 	"fa" : "جاوا",
 		 "ar" : "جافا"
 	},
-
+	"nationality":
+	{
+		"en" : "Nationality",
+	 	"fa" : "ملیت",
+		 "ar" : "وطني"
+	},
+	"mynation":
+	{
+		"en" : "Iran",
+	 	"fa" : "ایران",
+		 "ar" : "إيران"
+	},
 	"konkurdesc" :
 	{
 		"en" : "Rank 984 (in the entire country) in the national university entrance exam of 2017.",
