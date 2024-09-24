@@ -1,1 +1,267 @@
+{
+	"title" : {
+		"en" : "Introduction - AmirHossein Abbasi",
+	 	"fa" : "معرفی - امیرحسین عباسی ",
+		 "ar" : "سیرة - أمیرحسین عباسِي"	
+	},
 
+	"myname" :
+	{
+		"en" : "AmirHossein",
+	 	"fa" : "امیرحسین",
+		 "ar" : "أمیرحسین"
+	},
+
+	"myfullname" : 
+	{
+		"en" : "AmirHossein Abbasi",
+	 	"fa" : "امیرحسین عباسی",
+		 "ar" : "أمیرحسین عَبّاسي"
+	},
+
+	"name" :
+	{
+		"en" : "Name",
+	 	"fa" : "نام",
+		 "ar" : "إسم"
+	},
+
+	"defheader" :
+	{
+		"en" : "Introduction",
+	 	"fa" : "معرفی",
+		 "ar" : "مقدمة"
+	},
+
+	"kamal" :
+	{
+		"en" : "Kamal Highschool",
+	 	"fa" : "دبیرستان کمال",
+		 "ar" : "مدرسة ثانویة کمال"
+	},
+
+	"1396" :
+	{
+		"en" : "2017",
+	 	"fa" : "١٣٩٦",
+		 "ar" : "٢٠١٧"
+	},
+
+	"1402" :
+	{
+		"en" : "2023",
+	 	"fa" : "١٤٠٢",
+		 "ar" : "٢٠٢٣"
+	},
+
+	"birth":
+	{
+		"en" : "Birth",
+	 	"fa" : "تولد",
+		 "ar" : "ولادة"
+	},
+
+	"general":
+	{
+		"en" : "General Information",
+	 	"fa" : "اطلاعات کلی",
+		 "ar" : "معلومات شخصیة"
+	},
+
+
+	"education":
+	{
+		"fa" : "تحصیلات",
+	 	"en" : "Education",
+		 "ar" : "تعلیم"
+	},
+
+	"categories":
+	{
+		"fa" : "موضوعات",
+	 	"en" : "Categories",
+		 "ar" : "فئات"
+	},
+
+	"frameworks":
+	{
+		"fa" : "مهارت ها",
+	 	"en" : "Skills",
+		 "ar" : "مهارات"
+	},
+
+	"skills":
+	{
+		"fa" : "مهارت های زبان های برنامه نویسی",
+	 	"en" : "Programming Languages",
+		 "ar" : "لغات برمجة"
+	},
+
+	"langs":
+	{
+		"fa" : "مهارت های زبانی",
+	 	"en" : "Language Skills",
+		 "ar" : "مهارات اللغوية"
+	},
+
+	"jobs":
+	{
+		"fa" : "سوابق شغلی",
+	 	"en" : "Career Records",
+		 "ar" : "سجلات المهنية"
+	},
+
+	"ai":
+	{
+		"fa" : "هوش مصنوعی",
+	 	"en" : "Artificial Intelligence (AI)",
+		 "ar" : "ذكاء الاصطناعي"
+	},
+
+	"beginner":
+	{
+		"fa" : "مبتدی",
+	 	"en" : "Beginner",
+		 "ar" : "مبتدئ"
+	},
+
+	"advanced":
+	{
+		"fa" : "ماهر",
+	 	"en" : "Advanced",
+		 "ar" : "متقدم"
+	},
+
+	"expert":
+	{
+		"fa" : "خبره",
+	 	"en" : "Expert",
+		 "ar" : "خبير"
+	},
+
+	"invens":
+	{
+		"fa" : "اختراعات",
+	 	"en" : "Inventions",
+		 "ar" : "الاختراعات"
+	},
+
+	"mybirth":
+	{
+		"en" : "23 November 1998",
+	 	"fa" : "٢ آذر ١٣٧٧",
+		 "ar" : "٢٣ نوفمبر ١٩٩٨"
+	},
+
+	"degree" :
+	{
+		"en" : "Degree",
+	 	"fa" : "مقطع تحصیلی",
+		 "ar" : "درجة"
+	},
+
+	"inits" :
+	{
+		"en" : "Institution",
+	 	"fa" : "محل تحصیل",
+		 "ar" : "مؤسسة تعليمية"
+	},
+
+	"educatedyear" :
+	{
+		"en" : "Graduation year",
+	 	"fa" : "سال فارغ التحصیلی",
+		 "ar" : "سنة التخرج"
+	},
+
+	"diploma" :
+	{
+		"en" : "Diploma",
+	 	"fa" : "دیپلم",
+		 "ar" : "دبلوم"
+	},
+
+	"bachelor" :
+	{
+		"en" : "Bachelor",
+	 	"fa" : "کارشناسی",
+		 "ar" : "بکالوریوس"
+	},
+
+	"masters":
+	{
+		"en" : "Master's",
+	 	"fa" : "کارشناسی ارشد",
+		 "ar" : "درجة الماجستير"
+	},
+
+	"ut":
+	{
+		"en" : "University Of Tehran",
+	 	"fa" : "دانشگاه تهران",
+		 "ar" : "جامعة طهران"
+	},
+
+	"iust" :
+	{
+		"en" : "Iran University of Science and Technology",
+	 	"fa" : "دانشگاه علم و صنعت ایران",
+		 "ar" : "جامعة إيران للعلوم والتقنية"
+	},
+
+	"skill":
+	{
+		"en" : "Skill",
+	 	"fa" : "مهارت",
+		 "ar" : "مهارة"
+	},
+
+	"articles":
+	{
+		"en" : "Articles",
+	 	"fa" : "مقالات",
+		 "ar" : "مقالات"
+	},
+
+	"honors":
+	{
+		"en" : "Honors",
+	 	"fa" : "افتخارات",
+		 "ar" : "شرف"
+	},
+
+	"quotes":
+	{
+		"en" : "Quotations",
+	 	"fa" : "قول ها",
+		 "ar" : "الاقتباسات"
+	},
+
+	"python":
+	{
+		"en" : "Python",
+	 	"fa" : "پایتون",
+		 "ar" : "بایثون"
+	},
+
+	"java":
+	{
+		"en" : "Java",
+	 	"fa" : "جاوا",
+		 "ar" : "جافا"
+	},
+
+	"konkurdesc" :
+	{
+		"en" : "Rank 984 (in the entire country) in the national university entrance exam of 2017.",
+	 	"fa" : "رتبه ی ٩٨٤ کشور در کنکور سراسری سال ١٣٩٦ ",
+		 "ar" : "المرتبة ٩٨٤ على مستوى الدولة بأكملها في امتحان القبول الوطني لعام ٢٠١٧."
+	},
+
+	"licensedesc" :
+	{
+		"en" : "Confirmation of bachelor's degree",
+	 	"fa" : "تاییدیه ی مدرک لیسانس",
+		 "ar" : "تأكيد درجة البكالوريوس"
+	},
+}
