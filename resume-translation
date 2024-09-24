@@ -276,4 +276,10 @@
 	 	"fa" : "عباسی شاهکوه",
 		 "ar" : "عَباسي شاهکوه"
 	}
+	"js":
+	{
+		"en" : "Javascript/CSS",
+	 	"fa" : "جاواسکریپت/CSS",
+		 "ar" : "Javascript/CSS"
+	}
 }
