@@ -19,5 +19,27 @@
 			"en":"Zionist regime is doing genocide in Gaza!",
 			"ar":"کیان الصهیونی یرتکب الانقطاع فی قطاع غزه"
 		}
+	},
+	{
+		"title": 
+		{
+			"fa":"مرتضی آنالویی - استاد دانشگاه علم و صنعت",
+			"en":"Morteza Analoui - Associate Professor of Computer Engineering, IUST",
+			"ar":"مرتضي أنالوئی - أستاذ جامعة العلوم والتكنولوجيا (IUST)"
+		},
+		"link" : 
+		{
+			"fa":"https://ce.iust.ac.ir/page.php?slct_pg_id=1954&sid=14&slc_lang=fa",
+			"en":"https://www.linkedin.com/in/morteza-analoui-68570136/",
+			"ar":"https://www.linkedin.com/in/morteza-analoui-68570136/"
+		},
+		"image" : "https://media.licdn.com/dms/image/v2/C4E03AQHq3LHb2YhR5g/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1648320686538?e=1732752000&v=beta&t=KhRCIRS0UaDA-3J45bNf-K3PmPtzQv8jGqxnXhXwxlw",
+		"state" :
+		{
+			"fa":"پایان نامه ی آقای عباسی درمورد مقایسه ی نسخه ی جدید پروتکل SNMP بسیار کاربردی و از بهترین کارهای انجام شده در دانشگاه علم و صنعت می باشد.",
+			"en":"Mr. Abbasi's thesis about the comparison of the new version of SNMP protocol is very practical and one of the best works done in the University of Science and Technology.",
+			"ar":"تعتبر أطروحة السيد عباسي حول مقارنة الإصدار الجديد من بروتوكول SNMP عملية للغاية ومن أفضل الأعمال التي تم إنجازها في جامعة العلوم والتكنولوجيا."
+		}
 	}
+
 ]
