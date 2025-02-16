@@ -178,7 +178,7 @@
 
 
 
-	<div id="menu" style="background-color: yellow;
+<div id="menu" hidden style="background-color: yellow;
     position: fixed;
     top: 0;
     right: 0;
@@ -241,6 +241,13 @@ var tkn,rep,usr,fl;
 function SetError(err){
 	errorlogin.innerHTML = err;
 }
+
+
+const Menu = document.getElementById("menu");
+const catworkscontainer = document.getElementById("catworkscontainer");
+function openCloseMenu(){
+	Menu.style.width=(Menu.style.width=="100vw")?"0vw":"100vw";
+}
 	
 	
 function start(){	
@@ -298,6 +305,7 @@ errorlogin.innerHTML = "";
 	events = resp.events;
 	fixedWorks = resp.fixedWorks;
 	works = resp.works;
+	Menu.hidden = false;
 	construct();
 })
 .catch(error => {
@@ -308,7 +316,8 @@ SetError(`Server connected. but ${error}`);
 
 }
 
-  const weekdays = [
+	
+const weekdays = [
 	'شنبه',
 	'یکشنبه',
 	'دوشنبه',
@@ -373,6 +382,33 @@ function Focus(element){
 
 
 
+function opencloseParent(elem) {
+			elem.classList.toggle("active");
+            var content = elem.nextElementSibling;
+            if (content.style.maxHeight) {
+                content.style.maxHeight = null;
+            } else {
+                content.style.maxHeight = content.scrollHeight + "px";
+            }
+}
+
+function opencloseInner(elem) {
+			elem.classList.toggle("active");
+            var contentInner = elem.nextElementSibling;
+            if (contentInner.style.maxHeight) {
+                contentInner.style.maxHeight = null;
+            } else {
+                contentInner.style.maxHeight = contentInner.scrollHeight + "px";
+            }
+
+            // Adjust the parent's max-height to accommodate the child's content
+            var parentContent = elem.parentElement;
+            if (parentContent.style.maxHeight) {
+                parentContent.style.maxHeight = parentContent.scrollHeight + contentInner.scrollHeight + "px";
+            }
+}
+
+	
 
 
 
