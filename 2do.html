@@ -233,6 +233,7 @@ const E = document.getElementById('errorlogin');
 var events;
 var fixedWorks;
 var works;
+var remainedWorks;
 	
 var u,p,mk,ak;
 
@@ -305,6 +306,7 @@ errorlogin.innerHTML = "";
 	events = resp.events;
 	fixedWorks = resp.fixedWorks;
 	works = resp.works;
+	remainedWorks = resp.remainedWorks;
 	Menu.hidden = false;
 	construct();
 })
@@ -485,6 +487,23 @@ for (let index = 1; index < document.getElementsByClassName('row').length; index
 }
 	}
 }
+
+// Place Remained works
+for (const position of Object.keys(remainedWorks["positions"])) {
+	var res = `<button class="collapsible" onclick="opencloseParent(this)">${remainedWorks["positions"][position]}</button><div class="content">`;
+		for (const work of remainedWorks["works"]) {
+            if(work[2].indexOf(position)>=0){
+                res += `<button class="collapsible-inner" onclick="opencloseInner(this)">${work[0]}</button>
+                            <div class="content-inner">
+                                <p>${work[1]}</p>
+                            </div>`;
+            }
+		}
+	catworkscontainer.innerHTML += res+`</div>`;
+}
+
+
+	
 
 // redirect for showing today in start page
 if(document.URL.indexOf('#s')<0){
