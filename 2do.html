@@ -76,6 +76,57 @@
 }
 
 
+			.collapsible, .collapsible-inner {            
+            
+            cursor: pointer;
+            padding: 18px;
+            width: 100%;
+            border: none;
+           
+            outline: none;
+            font-size: x-large;
+			
+			
+ 
+        }
+
+		.collapsible{
+			background-color: #777;
+			color: white;
+			text-align: center;
+		}
+
+		.collapsible-inner {
+            background-color: #ccc;
+            color: black;
+            font-size: large;   
+        }
+		
+
+        .collapsible-inner:hover, .collapsible:hover {
+            background-color: #555;
+			color:white;
+        }
+
+        .content {
+            padding: 0 18px;
+			color:black;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.2s ease-out;   
+			         
+        }
+
+        
+
+        .content-inner {
+            padding: 0 18px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.2s ease-out;
+            background-color: #e1e1e1;
+        }
+
 </style>
 
 
