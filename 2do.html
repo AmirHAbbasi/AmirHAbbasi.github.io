@@ -192,7 +192,7 @@ transition:.2s width;color:white" >
     font-size: xx-large;
     background-color: red;
     color: white;
-    padding: 5px;cursor: pointer;" onclick="openCloseMenu()">
+    padding: 5px;cursor: pointer;" onclick="closeMenu()">
 		✕
 	</div>
 
@@ -203,7 +203,7 @@ transition:.2s width;color:white" >
 
     font-size: xx-large;
 	padding: 5px;
-	cursor: pointer;color:black" onclick="openCloseMenu()" >
+	cursor: pointer;color:black" onclick="openMenu()" >
 	☰
 	</div>
 	<div style="background-color: red;
@@ -246,8 +246,11 @@ function SetError(err){
 
 const Menu = document.getElementById("menu");
 const catworkscontainer = document.getElementById("catworkscontainer");
-function openCloseMenu(){
-	Menu.style.width=(Menu.style.width=="100vw")?"0vw":"100vw";
+function openMenu(){
+	document.getElementById("menu").style.width = "100%";
+}
+function closeMenu(){
+	document.getElementById("menu").style.width = "0%";
 }
 	
 	
