@@ -1,12 +1,10 @@
 [
   {
     "question" : "Who is the reachest man in the world?",
-    "image" : "https://upload.wikimedia.org/wikipedia/commons/e/e8/Ancient_Temple%2C_Naranag%2C_Jammu_and_Kashmir%2C_India.jpg",
     "options" : ["Bill Gates", "Steve Jobs"]
   }
   {
     "question" : "Who is the reachest man in the world?",
-    "image" : "https://upload.wikimedia.org/wikipedia/commons/e/e8/Ancient_Temple%2C_Naranag%2C_Jammu_and_Kashmir%2C_India.jpg",
     "options" : ["Bill Gates", "Steve Jobs"]
   }
 ]
