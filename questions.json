@@ -8,6 +8,10 @@
     "options" : ["Bill Gates", "Steve Jobs"]
   },
   {
+    "question" : "Suppose we have 45 numbers from 1 to 45, if every number have a point in a plate and this plate is divided into 3 sub-plates, how many points we have?",
+    "options" : ["1","2","3"]
+  },
+  {
     "question" : "Who?",
     "options" : ["Bill Gatesdvs", "Stevsdve Jobs", "Donald.J Trump", "SHazde"]
   }
