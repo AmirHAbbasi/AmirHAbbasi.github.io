@@ -1,4 +1,5 @@
-[
+{
+  "Domestic" : [
   {
     "question" : "JKJK",
     "options" : ["Bill Gatesdvs", "Stevsdve Jobs", "Donald.J Trump", "SHazde"]
@@ -14,5 +15,11 @@
   {
     "question" : "Who?",
     "options" : ["Bill Gatesdvs", "Stevsdve Jobs", "Donald.J Trump", "SHazde"]
-  }
-]
+  }],
+  
+  "Global":[{
+    "question" : "Who?",
+    "options" : ["Bill Gatesdvs", "Stevsdve Jobs", "Donald.J Trump", "SHazde"]
+  }]
+
+}
