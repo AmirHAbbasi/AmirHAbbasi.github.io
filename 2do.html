@@ -548,14 +548,14 @@ function PlaceWork(day, color, period, title, subtitle, includeSubtitle=false){
 	var width = period2range(period);
 	
 
-	dayRow.innerHTML += `
-		<div class="entry" onclick="showmodule('${title}', '${subtitle}')" style="background-color:${color};width:calc(${width} * ${90/(H-h)}% - 1px);
+	dayRow.innerHTML += ```
+		<div class="entry" onclick="showmodule(`${title}`, `${subtitle}`)" style="background-color:${color};width:calc(${width} * ${90/(H-h)}% - 1px);
 					  right:calc((${start} * ${90/(H-h)}%) + 10% - 1px);position:absolute">
 			<text style="font-size: x-large;text-wrap: nowrap;text-overflow: ellipsis;width:100%;">${title}</text>
 			<br>
 			<text style="text-align:start;font-size: small;text-wrap:nowrap;${includeSubtitle?'':'display: block;overflow-wrap: anywhere;'};border-top: 1px solid black;">${subtitle}</text>
 		</div>
-	`;
+	```;
 		
 
 
