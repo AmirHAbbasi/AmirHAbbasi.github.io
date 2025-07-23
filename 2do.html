@@ -491,10 +491,19 @@ for (let index = 1; index < document.getElementsByClassName('row').length; index
 	}
 }
 
+
+
+const sortedWorks = remainedWorks["works"].sort((a, b) => {
+    const aGoal = a[3] !== undefined ? remainedWorks["Goals"][a[3]] : Infinity;
+    const bGoal = b[3] !== undefined ? remainedWorks["Goals"][b[3]] : Infinity;
+    
+    return aGoal - bGoal;
+});
+	
 // Place Remained works
 for (const position of Object.keys(remainedWorks["positions"])) {
 	var res = `<button class="collapsible" onclick="opencloseParent(this)">${remainedWorks["positions"][position]}</button><div class="content">`;
-		for (const work of remainedWorks["works"]) {
+		for (const work of sortedWorks) {
             if(work[2].indexOf(position)>=0){
                 res += `<button class="collapsible-inner" onclick="opencloseInner(this)">${work[0]}</button>
                             <div class="content-inner">
