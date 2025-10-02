@@ -332,8 +332,8 @@ async function startup(data){
     const ctBuf = fromBase64(ciphertext);
 
 	const salt = new Uint8Array(
-        atob(local_pass)
-            .split('0dt6m6if+y/vUEun/uX8h5g9HsbEEq0lqN2WOneStOc=')
+        atob('0dt6m6if+y/vUEun/uX8h5g9HsbEEq0lqN2WOneStOc=')
+            .split('')
             .map(char => char.charCodeAt(0))
     );
 
