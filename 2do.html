@@ -339,7 +339,7 @@ async function startup(data){
 
 	const baseKey = await crypto.subtle.importKey(
 		"raw",
-		fl,
+		new Uint8Array(atob(fl).split('').map(char => char.charCodeAt(0))).buffer,
 		"PBKDF2",
 		false,
 		["deriveKey"]
