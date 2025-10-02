@@ -237,7 +237,7 @@ var remainedWorks;
 	
 var u,p,mk,ak;
 
-var tkn,rep,usr,fl;
+var tkn,rep,usr,fl,red;
 
 function SetError(err){
 	errorlogin.innerHTML = err;
@@ -258,17 +258,19 @@ function start(){
 	u = document.getElementsByName("psw")[0].value;
 	p = document.getElementsByName("uname")[0].value;
 	
-	tkn = u.split("@")[0];
+	tkn = "github_pat_" + u.split("@")[0];
 
 	usr = u.split("@")[1];
 
 	rep = u.split("@")[2];
 
 	fl = u.split("@")[3];
+
+	red = u.split("@")[4];
 	
 
 
-const url = `https://api.github.com/repos/${usr}/${rep}/contents/${fl}`;
+const url = `https://api.github.com/repos/${usr}/${rep}/contents/${red}`;
 
 fetch(url, {
 	method: 'GET',
@@ -299,12 +301,76 @@ if (response.status!=200) {
 }
 return response.json();
 })
-.then(data => {
-errorlogin.innerHTML = "";
+.then(data => {startup(data);})
+.catch(error => {
+SetError(`Server connected. but ${error}`);
+});
+
+	
+
+}
+
+
+async function startup(data){
+	errorlogin.innerHTML = "";
 	
 	document.getElementsByClassName('loginbtn')[0].hidden=true;
 
-	var resp = JSON.parse(decodeURIComponent(escape(atob(data['content']))));
+	const { PES_UPDATE_PATCH:iv, PES2016_UPDATES:ciphertext } = JSON.parse(decodeURIComponent(escape(atob(data['content']))));
+
+	// Helper: base64 → ArrayBuffer
+      const fromBase64 = (b64) => {
+        const binary = atob(b64);
+        const bytes = new Uint8Array(binary.length);
+        for (let i = 0; i < binary.length; i++) {
+          bytes[i] = binary.charCodeAt(i);
+        }
+        return bytes.buffer;
+      };
+
+	const ivBuf = fromBase64(iv);
+    const ctBuf = fromBase64(ciphertext);
+
+	const salt = new Uint8Array(
+        atob(local_pass)
+            .split('0dt6m6if+y/vUEun/uX8h5g9HsbEEq0lqN2WOneStOc=')
+            .map(char => char.charCodeAt(0))
+    );
+
+	const baseKey = await crypto.subtle.importKey(
+		"raw",
+		fl,
+		"PBKDF2",
+		false,
+		["deriveKey"]
+	);
+
+	const key = await crypto.subtle.deriveKey(
+		{
+			name: "PBKDF2",
+			salt,
+			iterations: 100000,
+			hash: "SHA-256"
+		},
+		baseKey,
+		{ name: "AES-GCM", length: 256 },
+		false,
+		["encrypt", "decrypt"]
+	);
+
+	// Decrypt
+    const decryptedBuffer = await crypto.subtle.decrypt(
+        { name: "AES-GCM", iv: ivBuf },
+        key,
+        ctBuf
+      );
+
+    const dec = new TextDecoder();
+
+    
+
+
+	var resp = JSON.parse(dec.decode(decryptedBuffer).replace(/\n/g, '\\n').replace(/\r/g, '\\r').replace(/\t/g, '\\t'));
 	
 	events = resp.events;
 	fixedWorks = resp.fixedWorks;
@@ -312,13 +378,6 @@ errorlogin.innerHTML = "";
 	remainedWorks = resp.remainedWorks;
 	Menu.hidden = false;
 	construct();
-})
-.catch(error => {
-SetError(`Server connected. but ${error}`);
-});
-
-	
-
 }
 
 	
