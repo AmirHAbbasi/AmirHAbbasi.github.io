@@ -1,0 +1,604 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+
+<link href='https://raw.githubusercontent.com/AmirHAbbasi/AmirHAbbasi.github.io/refs/heads/main/schedule-main.min.css' rel='stylesheet' />
+<script src='https://raw.githubusercontent.com/AmirHAbbasi/AmirHAbbasi.github.io/refs/heads/main/schedule-main.min.js'></script>
+<link rel="icon" type="image/x-icon" href="https://raw.githubusercontent.com/AmirHAbbasi/AmirHAbbasi.github.io/refs/heads/main/taq-icon.png">
+
+
+
+
+
+<title>تقویم</title>
+<script>
+
+
+
+
+
+
+function modalshow(header, description=undefined){
+  alert(`${header}${description?" : "+description:''}`);
+}
+
+
+const formatTime = t => `${t.split(':')[0].padStart(2, '0')}:${(t.split(':')[1] || '0').padStart(2, '0')}:00`;
+
+
+const matchDates = (a, b) => a.split('/').map(x => x.padStart(2,'0')).join('/').indexOf(b.split('/').map(x => x.padStart(2,'0')).join('/'))>-1;
+
+
+
+
+
+
+  
+
+
+  
+
+
+  
+
+
+
+</script>
+<script>
+  function opencloseParent(elem) {
+			elem.classList.toggle("active");
+            var content = elem.nextElementSibling;
+            if (content.style.maxHeight) {
+                content.style.maxHeight = null;
+            } else {
+                document.querySelectorAll('.content').forEach(c=>c.style.maxHeight = null);
+                content.style.maxHeight = content.scrollHeight + "px";
+            }
+}
+</script>
+
+
+
+</head>
+<body style="background: var(--schedule-bg);">
+
+  
+  <div id="upage">
+    <div id="up-sidebar">
+
+            <h2>Login</h2>
+            <form onsubmit="getSchedule(event)">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" placeholder="Enter your username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                </div>
+                                
+                <button type="submit" class="login-button">Sign In</button>
+                <label id="errorlogin"></label>
+            </form>
+          
+    </div>
+  </div>
+  <div id='calendar'></div>
+
+</body>
+
+
+<script>
+var events;
+var fixedWorks;
+var works;
+var remainedWorks;
+	
+
+const errorlogin = document.getElementById('errorlogin');
+function SetError(err){
+	errorlogin.innerHTML = err;
+}
+
+
+var fl;
+function getSchedule(event){
+  event.preventDefault();
+
+  const formData = new FormData(event.target);
+  const data = Object.fromEntries(formData);
+
+  const u = data.password;
+  const p = data.username;
+
+
+
+	const ppp = u.split("@")[1];
+
+	const usernamer = u.split("@")[2];
+
+	fl = u.split("@")[3];
+
+	const red = u.split("@")[4];
+
+
+  
+  fetch(`https://api.github.com/repos/${ppp}/${usernamer}/contents/${red}`, {
+	method: 'GET',
+	signal: AbortSignal.timeout(5000),
+	headers: {
+        'Authorization': `token ${"github_pat_" + u.split("@")[0]}`,
+        'Content-Type': 'application/json'
+    }
+  }).then(response => {
+if (response.status!=200) {
+	switch (response.status){
+		case 401 : 
+				SetError('Wrong username pass or forbidden request');
+				breadk;
+		case 403 : 
+				SetError('Forbidden request');
+				breadk;
+		case 404 : 
+				SetError('404 not found');
+				breadk;
+		case 400 : 
+				SetError('bad request');
+				breadk;
+	}
+
+	
+}
+return response.json();
+})
+.then(data => {startup(data);})
+.catch(error => {
+SetError(`Server connected. but ${error}`);
+});
+
+
+}
+
+
+async function startup(data){
+	
+	// document.getElementsByClassName('loginbtn')[0].display=none;
+  document.querySelector('#upage').style.display='none';
+
+	const { PES_UPDATE_PATCH:iv, PES2016_UPDATES:ciphertext } = JSON.parse(decodeURIComponent(escape(atob(data['content']))));
+
+	// Helper: base64 → ArrayBuffer
+      const fromBase64 = (b64) => {
+        const binary = atob(b64);
+        const bytes = new Uint8Array(binary.length);
+        for (let i = 0; i < binary.length; i++) {
+          bytes[i] = binary.charCodeAt(i);
+        }
+        return bytes.buffer;
+      };
+
+	const ivBuf = fromBase64(iv);
+    const ctBuf = fromBase64(ciphertext);
+
+	const salt = new Uint8Array(
+        atob('0dt6m6if+y/vUEun/uX8h5g9HsbEEq0lqN2WOneStOc=')
+            .split('')
+            .map(char => char.charCodeAt(0))
+    );
+
+	const baseKey = await crypto.subtle.importKey(
+		"raw",
+		new Uint8Array(atob(fl).split('').map(char => char.charCodeAt(0))).buffer,
+		"PBKDF2",
+		false,
+		["deriveKey"]
+	);
+
+	const key = await crypto.subtle.deriveKey(
+		{
+			name: "PBKDF2",
+			salt,
+			iterations: 100000,
+			hash: "SHA-256"
+		},
+		baseKey,
+		{ name: "AES-GCM", length: 256 },
+		false,
+		["encrypt", "decrypt"]
+	);
+
+	// Decrypt
+    const decryptedBuffer = await crypto.subtle.decrypt(
+        { name: "AES-GCM", iv: ivBuf },
+        key,
+        ctBuf
+      );
+
+    const dec = new TextDecoder();
+
+    
+
+
+	var resp = JSON.parse(dec.decode(decryptedBuffer).replace(/\n/g, '\\n').replace(/\r/g, '\\r').replace(/\t/g, '\\t'));
+
+  createSchedule(resp);
+	
+
+}
+
+
+function createSchedule(resp){
+
+  // [date, title, isHoliday]
+  const fixd_holidays_jalali=resp.events.jalali;    
+  const fixd_holidays_greg=resp.events.miladi;
+  const fixd_holidays_hijri=resp.events.hijri;
+
+  const tasks = resp.works;
+
+
+  const fixed_works = resp.fixedWorks;
+
+  const Remained = resp.remainedWorks;
+
+  function generateFixedWorks(){
+    return fixed_works.flatMap(singleSchedule => {
+        const [daysPattern, eventsData] = singleSchedule;
+        
+        return eventsData.map(event => {
+            const [time, title, desc] = event;
+            const [startTime, endTime] = time.split('-');
+            
+            // Convert days pattern to daysOfWeek (0-6 where 0=Sunday)
+            const daysOfWeek = daysPattern.map(day => day==0?'6':((day - 1) % 7).toString());
+            
+            return {
+                daysOfWeek: daysOfWeek,
+                title: title,
+                description: desc,
+                color: 'var(--recurr-bg)',
+                textColor : 'black',
+                startTime: formatTime(startTime),
+                endTime: formatTime(endTime),
+                url: `javascript:modalshow("${title}",\`${desc}\`)`,
+                
+            };
+        });
+    });
+    
+}
+
+
+
+const getEvents = (start, end) => 
+  Array.from({length: Math.ceil((end - start) / 86400000) }).flatMap((_, i) => {
+    const miladi = new Date(start.getTime() + i * 86400000);
+
+    const shamsi = miladi.toLocaleString("ja-JP" , {calendar: 'persian'}).split(' ')[0].slice(2,); // '1404/7/24'
+
+    const hijri=miladi.toLocaleString("en" , {calendar: 'islamic-umalqura'}).split(' ')[0]; // '4/24/1447'
+    
+    var dayEvents = '';
+    var Holiday = false;
+
+    const addedEvents = [];
+    
+    
+    fixd_holidays_greg.filter(([date]) => {
+      return (parseInt(date.split("-")[0])==(miladi.getMonth()+1))&&(parseInt(date.split("-")[1])==miladi.getDate());
+    }).map(([, title, isHoliday]) => {Holiday = Holiday || isHoliday;dayEvents+=title+" - "; });
+    
+    
+
+    fixd_holidays_jalali.filter(([date]) => matchDates(shamsi, date))
+                      .map(([, title, isHoliday]) => {Holiday = Holiday || isHoliday;dayEvents+=title+" - "; });
+
+    fixd_holidays_hijri.filter(([date]) => matchDates(hijri, date))
+                      .map(([, title, isHoliday]) => {Holiday = Holiday || isHoliday;dayEvents+=title+" - "; });
+
+
+    dayEvents.length>0?addedEvents.push({start:`${miladi.getFullYear()}-${String(miladi.getMonth()+1).padStart(2,'0')}-${String(miladi.getDate()).padStart(2,'0')}`, title:dayEvents.slice(0,-3), display: 'background', color: Holiday ? 'var(--holiday-bg)' : 'transparent'}):null;    
+    
+    
+    Object.keys(tasks).filter(z => matchDates(shamsi, z)).forEach(kk => {      
+      tasks[kk].forEach(k=>{
+        const [period, criticality, title, subtitle] = k;   
+        addedEvents.push({title:title, start: `${miladi.getFullYear()}-${String(miladi.getMonth()+1).padStart(2,'0')}-${String(miladi.getDate()).padStart(2,'0')}T${period.split('-')[0].split(':')[0].padStart(2,'0')}:${(period.split('-')[0].split(':')[1]||'').padStart(2,'0')}:${(period.split('-')[0].split(':')[2]||'').padStart(2,'0')}`, end:`${miladi.getFullYear()}-${String(miladi.getMonth()+1).padStart(2,'0')}-${String(miladi.getDate()).padStart(2,'0')}T${period.split('-')[1].split(':')[0].padStart(2,'0')}:${(period.split('-')[1].split(':')[1]||'').padStart(2,'0')}:${(period.split('-')[1].split(':')[2]||'').padStart(2,'0')}`, color: `var(--task-bg-${parseInt(criticality)||1})`, textColor:`var(--task-txt-${parseInt(criticality)||1})`, url: `javascript:modalshow("${title}",\`${subtitle}\`)`});
+        });
+    });
+
+    
+    return addedEvents;
+  });
+
+  //document.addEventListener('DOMContentLoaded', function() {
+
+
+    // remained-view.js
+    const remainedViewPlugin = FullCalendar.createPlugin({
+      views: {
+        remained: {
+          classNames: ['remained-view'],
+          titleFormat: () => 'مانده ها',
+          content: function(props) {
+            return {
+              html : Array.from({length: Remained['positions'].length}, (_, i) => {
+                return `<button class="collapsible" onclick="opencloseParent(this)">${Remained['positions'][i]}</button><div class="content">
+                  ${Remained.works
+                      .filter(w => {return w[2].includes(i)||w[2].includes(i.toString()) })
+                      .sort((a,b) => Remained.Goals.indexOf(a[3]) - Remained.Goals.indexOf(b[3]))
+                      .map(tsk=>{                        
+                        return `
+                            <li class="collapsible-inner">
+                              <b>
+                                ${tsk[0]}
+                              </b>
+                                ${tsk[1]}
+                            </li>
+                        `;
+                      }).join('')}
+                        </div>`;
+              }).join('')
+              
+            };
+            
+          }
+        }
+      }
+    });
+
+    var initialLocaleCode = 'fa';
+    var localeSelectorEl = document.getElementById('locale-selector');
+    var calendarEl = document.getElementById('calendar');
+
+    var calendar = new FullCalendar.Calendar(calendarEl, {      
+      plugins: [remainedViewPlugin],
+      themeSystem:'superhero',
+      height: '100vh',
+      //aspectRatio: 1,
+      //initialView: 'dayGridWeek',
+      initialView: 'twoWeekView',
+      headerToolbar: {
+        left: 'prev,next today',
+        center: 'title',
+        right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth,remained'
+      },
+      nowIndicator: true,
+      locale: initialLocaleCode,
+      buttonIcons: false, // show the prev/next text
+      navLinks: true, // can click day/week names to navigate views
+      //editable: true,
+      dayMaxEvents: true, // allow "more" link when too many events
+      dateClick: function(info) {
+        
+      },
+
+      events: function(fetchInfo, successCallback, failureCallback) {        
+       successCallback([...getEvents(fetchInfo.start, fetchInfo.end), ...generateFixedWorks(), ...[{daysOfWeek: [ '4', '5' ], display: 'background', color: 'var(--holiday-bg)'}]]);        
+      },
+      views: {
+        twoWeekView: {
+          type: 'timeGridWeek',
+          duration: { days: 3 },
+          buttonText: 'ایام آتی'
+        },
+        remained: {
+          buttonText: 'مانده'
+        }
+        
+      }
+
+      
+    });
+
+    calendar.render();
+
+  
+
+  //});
+}
+
+</script>
+<style>
+
+  
+:root {
+  --schedule-header: linear-gradient(to right, #00b09b, #96c93d); 
+  --schedule-bg: #90eec84a; 
+  --today-bg: #FCAB10;
+  --task-bg-0: #A1EF8B; /* dont care */
+  --task-bg-1: #8bef98;
+  --task-bg-2: #000000; /* critical */
+  --task-txt-0: #000000; /* dont care */
+  --task-txt-1: #000000;
+  --task-txt-2: #ffffff; /* critical */
+  --recurr-bg: #92D5E6; 
+  --holiday-bg: #ffc0cbb8; 
+  --holiday-text-color: red;   
+}
+
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Cairo', 'B Nazanin';
+    font-size: 14px;
+  }
+
+  
+
+  #calendar {
+    max-width: 100vw;   
+  }
+
+
+
+  .fc .fc-toolbar.fc-header-toolbar{
+    background: var(--schedule-header);
+    padding: 15px;
+    margin-bottom: 0;
+  }
+
+  
+  .fc .fc-button-primary{
+    padding: 15px;
+    border-radius: 0;
+  }
+
+
+
+  .fc-bg-event > .fc-event-title{
+    color : var(--holiday-text-color);
+  }
+  .fc-bg-event{
+    opacity: 1 !important;
+  }
+
+
+  .fc-day-today{
+    background-color: var(--today-bg) !important;
+  }
+
+
+
+  .fc-daygrid-event-harness>a{
+    color:black;
+  }
+
+
+
+
+
+
+.remained-view{
+    max-height: 100%;
+    overflow-y: auto;
+}
+
+  .collapsible{
+    background-color: var(--today-bg);
+    color: white;
+    text-align: center;
+    width: 100%;    
+    font-family: inherit;
+  }
+
+  .collapsible{
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    border: none;
+    outline: none;
+    font-size: x-large;
+    margin-bottom: 5px;
+  }
+  .collapsible-inner {
+    font-size: large;
+  }
+
+.collapsible:hover {
+    background-color: var(--fc-list-event-dot-width);
+    color: black;
+  }
+.content {
+    padding: 0 30px;
+    color: black;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.2s;
+    
+}
+.content>li{
+  margin:10px 0;
+}
+
+#upage{
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: url('https://upload.wikimedia.org/wikipedia/commons/9/99/Waving_Brazil_flag.png');
+    
+
+    background-size: 112%;
+    background-position-x: 144%;
+    background-position-y: 19%;
+}
+#up-sidebar{
+  position: absolute;
+  right: 0;
+  height: calc(100% - 40px);
+  width: 45%;
+  background: rgb(255 255 255 / 90%);
+  padding: 20px;
+  
+}
+
+
+
+
+
+
+
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: calc(100% - 30px);
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            transition: border 0.3s;
+        }
+
+        .form-group input:focus {
+            border-color: #3498db;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+        }
+
+        
+
+        .login-button {
+            width: 100%;
+            padding: 12px;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .login-button:hover {
+            background: #2980b9;
+        }
+
+        #errorlogin{
+          color:red;
+          font-weight: bold;
+
+        }
+
+        
+
+        
+  
+  
+
+
+</style>
+
+</html>
