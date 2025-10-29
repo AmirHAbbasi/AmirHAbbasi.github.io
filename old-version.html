@@ -327,7 +327,7 @@ const getEvents = (start, end) =>
                 return `<button class="collapsible" onclick="opencloseParent(this)">${Remained['positions'][i]}</button><div class="content">
                   ${Remained.works
                       .filter(w => {return w[2].includes(i)||w[2].includes(i.toString()) })
-                      .sort((a,b) => Remained.Goals.indexOf(a[3]) - Remained.Goals.indexOf(b[3]))
+                      .sort((a,b) => ((Remained.Goals.indexOf(b[3])+2)||150) - ((Remained.Goals.indexOf(a[3])+2)||150))
                       .map(tsk=>{                        
                         return `
                             <li class="collapsible-inner">
