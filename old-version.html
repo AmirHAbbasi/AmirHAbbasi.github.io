@@ -21,6 +21,7 @@
 
 function modalshow(header, description=undefined){
   // alert(`${header}${description?" : "+description:''}`);
+	console.log(description);
   document.querySelector('#modal').style.display = 'block';
   document.querySelector('#modalContent>h1').innerText = header;
   document.querySelector('#preview').innerHTML = parseMarkdown(description);
