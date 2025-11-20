@@ -20,7 +20,69 @@
 
 
 function modalshow(header, description=undefined){
-  alert(`${header}${description?" : "+description:''}`);
+  // alert(`${header}${description?" : "+description:''}`);
+  document.querySelector('#modal').style.display = 'block';
+  document.querySelector('#modalContent>h1').innerText = header;
+  document.querySelector('#preview').innerHTML = parseMarkdown(description);
+}
+
+
+
+function parseMarkdown(text) {
+            // Headers
+            text = text.replace(/^# (.*$)/gim, '<h1>$1</h1>');
+            text = text.replace(/^## (.*$)/gim, '<h2>$1</h2>');
+            text = text.replace(/^### (.*$)/gim, '<h3>$1</h3>');
+            text = text.replace(/^#### (.*$)/gim, '<h4>$1</h4>');
+            text = text.replace(/^##### (.*$)/gim, '<h5>$1</h5>');
+            text = text.replace(/^###### (.*$)/gim, '<h6>$1</h6>');
+            
+            // Bold
+            text = text.replace(/\*\*(.*)\*\*/gim, '<strong>$1</strong>');
+            text = text.replace(/__(.*)__/gim, '<strong>$1</strong>');
+            
+            // Italic
+            text = text.replace(/\*(.*)\*/gim, '<em>$1</em>');
+            text = text.replace(/_(.*)_/gim, '<em>$1</em>');
+            
+            // Strikethrough
+            text = text.replace(/~~(.*)~~/gim, '<del>$1</del>');
+            
+            // Code blocks
+            text = text.replace(/```([\s\S]*?)```/g, '<pre><code>$1</code></pre>');
+            
+            // Inline code
+            text = text.replace(/`(.*?)`/g, '<code>$1</code>');
+            
+            // Blockquotes
+            text = text.replace(/^> (.*$)/gim, '<blockquote>$1</blockquote>');
+            
+            // Horizontal rule
+            text = text.replace(/^\-\-\-$/gim, '<hr>');
+            text = text.replace(/^\*\*\*$/gim, '<hr>');
+            
+            // Links
+            text = text.replace(/\[([^\[]+)\]\(([^\)]+)\)/gim, '<a href="$2" target="_blank">$1</a>');
+            
+            // Images
+            text = text.replace(/!\[([^\[]+)\]\(([^\)]+)\)/gim, '<img src="$2" alt="$1">');
+            
+            // Lists
+            text = text.replace(/^\s*\- (.*$)/gim, '<ul><li>$1</li></ul>');
+            text = text.replace(/^\s*\* (.*$)/gim, '<ul><li>$1</li></ul>');
+            text = text.replace(/^\s*\+ (.*$)/gim, '<ul><li>$1</li></ul>');
+            
+            // Ordered lists
+            text = text.replace(/^\s*\d\. (.*$)/gim, '<ol><li>$1</li></ol>');
+            
+            // Fix nested lists
+            text = text.replace(/<\/ul>\s*<ul>/g, '');
+            text = text.replace(/<\/ol>\s*<ol>/g, '');
+            
+            // Line breaks
+            //text = text.replace(/\n/g, '<br>');
+            
+            return text.trim();
 }
 
 
@@ -59,10 +121,55 @@ const matchDates = (a, b) => a.split('/').map(x => x.padStart(2,'0')).join('/').
 </script>
 
 
+<style>
+
+
+#modal{
+  display: none;
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+
+ 
+    top: 0;
+    left: 0;
+
+    background: radial-gradient(black -25%, transparent);
+
+
+    z-index: 10;
+    align-content: center;
+    justify-items: anchor-center;
+    color: black;
+}
+
+
+#modalContent{
+  position: absolute;
+
+    max-width: 80%;
+    max-height: 80%;
+    background-color: orange;
+    padding: 15px;
+    border-radius: 15px;
+    overflow: auto;
+    filter: drop-shadow(9px 11px 6px black);
+
+}
+
+</style>
 
 </head>
 <body style="background: var(--schedule-bg);">
 
+  
+
+  <div id="modal">
+    <div id="modalContent">  
+      <h1></h1>
+      <div id="preview"></div>
+    </div>  
+  </div>
   
   <div id="upage">
     <div id="up-sidebar">
@@ -88,6 +195,10 @@ const matchDates = (a, b) => a.split('/').map(x => x.padStart(2,'0')).join('/').
 
 </body>
 
+<script>
+  const modal = document.querySelector('#modal');
+  modal.addEventListener('click', e=>{modal.style.display = (e.target==modal)?'none':'block';});
+</script>
 
 <script>
 var events;
