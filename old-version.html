@@ -452,7 +452,7 @@ const getEvents = (start, end) =>
                                 ${tsk[1]}
                             </li>
                            -->
-                           <button onclick="modalshow('${tsk[0]}', '${tsk[1]}')" class="collapsible-inner-btn">${tsk[0]}</button>
+                           <button onclick="modalshow('${tsk[0]}', decodeURIComponent('${encodeURIComponent(tsk[1])}'))" class="collapsible-inner-btn">${tsk[0]}</button>
                         `;
                       }).join('')}
                         </div>`;
