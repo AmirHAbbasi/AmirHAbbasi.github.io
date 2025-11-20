@@ -376,7 +376,7 @@ function createSchedule(resp){
                 textColor : 'black',
                 startTime: formatTime(startTime),
                 endTime: formatTime(endTime),
-                url: `javascript:modalshow("${title}",decodeURIComponent('${encodeURIComponent(desc)}'))`,
+                url: `javascript:modalshow("${title}",decodeURIComponent(`${encodeURIComponent(desc)}`))`,
                 
             };
         });
